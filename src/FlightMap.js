@@ -16,7 +16,7 @@ const FlightMap = () => {
             .get("https://airlabs.co/api/v9/flights?api_key=a8690eb7-ee46-45eb-a4ba-5e55e309977e")
             .then((res) => {
                 console.log("API Response:", res.data);
-                setFlightData(res.data.response);
+                setFlightData(res.data.response.slice(0, 100));
             })
             .catch((error) => {
                 console.error("Error fetching data from the API:", error);
