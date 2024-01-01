@@ -1,14 +1,15 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import FlightMap from './FlightMap';
 
-function App() {
+const App = () => {
   return (
-    <div className="App">
-      <h1 class="text-3xl font-bold underline">
-        Hello world!
-      </h1>
-    </div>
+    <Router>
+      <Switch>
+        <Route path="/" exact component={FlightMap} />
+      </Switch>
+    </Router>
   );
-}
+};
 
 export default App;
