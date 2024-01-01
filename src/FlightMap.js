@@ -10,10 +10,11 @@ const FlightMap = () => {
     const mapId = "3883295c1c187d1e"
     const AnkaraPosition = { lat: 39.93, lng: 32.85 }
     const [flightData, setFlightData] = useState([]);
+
+
     const onClickHandler = () => {
         console.log("CLİDKEDD")
     }
-
 
     const fetchData = () => {
         axios
