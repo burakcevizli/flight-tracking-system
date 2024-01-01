@@ -3,16 +3,13 @@ import React, { useEffect, useState } from 'react'
 import { APIProvider, Map, AdvancedMarker, Pin, InfoWindow } from '@vis.gl/react-google-maps'
 import { faPlane } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 
 const FlightMap = () => {
     const mapId = "3883295c1c187d1e"
     const AnkaraPosition = { lat: 39.93, lng: 32.85 }
     const [flightData, setFlightData] = useState([]);
-
-    const airplaneIcon = (
-        <img src='https://img1.pngindir.com/20180707/vfh/kisspng-airplane-computer-icons-flight-clip-art-5b4095d66949f0.6022332415309593184313.jpg' className='w-5' alt='ucak' />
-    );
 
     const fetchData = () => {
         axios
@@ -37,8 +34,14 @@ const FlightMap = () => {
         <APIProvider apiKey='AIzaSyBw_gyiOSnKzHdahIyf2zFJBbrGL3UwBKI'>
             <div style={{ height: "80vh", marginTop: "5rem" }}>
                 <Map zoom={10} center={AnkaraPosition} mapId={mapId}>
-
-
+                    {flightData.map((each, index) => (
+                        <AdvancedMarker
+                            key={index}
+                            position={{ lat: each.lat, lng: each.lng }}
+                            className='cursor-pointer'
+                        ><FontAwesomeIcon icon={faPlane} className='cursor-pointer' size='2xl' />
+                        </AdvancedMarker>
+                    ))}
                 </Map>
             </div>
         </APIProvider>
