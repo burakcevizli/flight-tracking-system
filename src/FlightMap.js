@@ -10,6 +10,10 @@ const FlightMap = () => {
     const mapId = "3883295c1c187d1e"
     const AnkaraPosition = { lat: 39.93, lng: 32.85 }
     const [flightData, setFlightData] = useState([]);
+    const onClickHandler = () => {
+        console.log("CLİDKEDD")
+    }
+
 
     const fetchData = () => {
         axios
@@ -38,9 +42,12 @@ const FlightMap = () => {
                         <AdvancedMarker
                             key={index}
                             position={{ lat: each.lat, lng: each.lng }}
-                            className='cursor-pointer'
-                        ><FontAwesomeIcon icon={faPlane} className='cursor-pointer' size='2xl' />
+                            style={{ cursor: 'pointer' }}
+                            onClick={onClickHandler}
+                        >
+                            <FontAwesomeIcon icon={faPlane} size='2xl' />
                         </AdvancedMarker>
+
                     ))}
                 </Map>
             </div>

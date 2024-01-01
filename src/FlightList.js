@@ -6,6 +6,8 @@ const FlightList = () => {
     const [showDetail, setShowDetail] = useState(false);
     const [showOnlySelectedDetail, setShowOnlySelectedDetail] = useState(false)
     const [selectedIndex, setSelectedIndex] = useState(null)
+    const [departureAirportFilter, setDepartureAirportFilter] = useState("")
+    const [arrivalAirportFilter, setArrivalAirportFilter] = useState("")
 
     const onClickHandler = () => {
         setShowDetail(!showDetail);
@@ -13,6 +15,21 @@ const FlightList = () => {
     const toggleOnClickHandler = () => {
         setShowOnlySelectedDetail(!showOnlySelectedDetail)
     }
+
+    const handleDepartureAirportFilterChange = (e) => {
+        setDepartureAirportFilter(e.target.value)
+    }
+
+    const handleArrivalAirportFilterChange = (e) => {
+        setArrivalAirportFilter(e.target.value)
+    }
+
+    const filteredFlights = flights.filter((flight) => {
+        return (
+            flight.dep_iata.includes(departureAirportFilter) &&
+            flight.arr_iata.includes(arrivalAirportFilter)
+        );
+    });
 
     useEffect(() => {
         axios
@@ -24,7 +41,7 @@ const FlightList = () => {
             .catch((error) => {
                 console.error("Error fetching data from the API:", error);
             });
-    }, []);
+    }, [departureAirportFilter, arrivalAirportFilter]);
 
     return (
         <div className='flex flex-col items-center'>
@@ -37,7 +54,25 @@ const FlightList = () => {
                     {showDetail ? "Hide Details" : "Show Details"}
                 </button>
             </div>
-            {flights.map((flight, index) => (
+            <div className="mb-4">
+                <label className="text-purple-800 font-bold mr-2">Departure Airport:</label>
+                <input
+                    type="text"
+                    value={departureAirportFilter}
+                    onChange={handleDepartureAirportFilterChange}
+                    className="border-2 py-2 px-4 rounded"
+                />
+            </div>
+            <div className="mb-4">
+                <label className="text-purple-800 font-bold mr-2">Arrival Airport:</label>
+                <input
+                    type="text"
+                    value={arrivalAirportFilter}
+                    onChange={handleArrivalAirportFilterChange}
+                    className="border-2 py-2 px-4 rounded"
+                />
+            </div>
+            {filteredFlights.map((flight, index) => (
                 <div key={index} className='w-[100rem]  mx-auto gap-1 flex text-center justify-between'>
                     <div onClick={() => setSelectedIndex(index)} className='w-[20rem] cursor-pointer border-2 py-2 rounded mb-2 border-amber-600'>
                         <h1 className='text-[1.2rem] text-purple-800 font-bold underline'>Uçuş Bilgileri</h1>
