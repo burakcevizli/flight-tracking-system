@@ -56,8 +56,8 @@ const FlightMap = () => {
             <div style={{ height: "80vh" }}>
                 <h1 className='text-center text-[2rem] font-bold mt-8 text-green-700 mb-2'>Burak Cevizli Air Tracker</h1>
                 <div className='flex'>
-                    <button onClick={buttonOnClickHandler} className='bg-blue-500 px-4 py-2 flex justify-center mx-auto mb-6'>Uçuş Listesini Görmek İçin Tıklayınız</button>
-                    <button onClick={getUserLocation} className='bg-blue-500 px-4 py-2 flex justify-center mx-auto mb-6'>Konumunuzu Görmek İçin Tıklayınız.</button>
+                    <button onClick={buttonOnClickHandler} className='bg-blue-500 text-white px-4 py-2 flex justify-center mx-auto mb-6'>Uçuş Listesini Görmek İçin Tıklayınız</button>
+                    <button onClick={getUserLocation} className='bg-blue-500 text-white px-4 py-2 flex justify-center mx-auto mb-6'>Konumunuzu Görmek İçin Tıklayınız.</button>
                 </div>
                 <Map zoom={10} center={AnkaraPosition || userLocation} mapId={mapId}>
                     {userLocation && (
