@@ -26,10 +26,11 @@ const FlightList = () => {
 
     const filteredFlights = flights.filter((flight) => {
         return (
-            flight.dep_iata.includes(departureAirportFilter) &&
-            flight.arr_iata.includes(arrivalAirportFilter)
+            (flight.dep_iata && flight.dep_iata.includes(departureAirportFilter)) &&
+            (flight.arr_iata && flight.arr_iata.includes(arrivalAirportFilter))
         );
     });
+
 
     useEffect(() => {
         axios
