@@ -1,5 +1,6 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 
 const FlightList = () => {
     const [flights, setFlights] = useState([]);
@@ -8,6 +9,7 @@ const FlightList = () => {
     const [selectedIndex, setSelectedIndex] = useState(null)
     const [departureAirportFilter, setDepartureAirportFilter] = useState("")
     const [arrivalAirportFilter, setArrivalAirportFilter] = useState("")
+    const history = useHistory()
 
     const onClickHandler = () => {
         setShowDetail(!showDetail);
@@ -22,6 +24,9 @@ const FlightList = () => {
 
     const handleArrivalAirportFilterChange = (e) => {
         setArrivalAirportFilter(e.target.value)
+    }
+    const goHomePage = () => {
+        history.goBack()
     }
 
     const filteredFlights = flights.filter((flight) => {
@@ -46,14 +51,15 @@ const FlightList = () => {
 
     return (
         <div className='flex flex-col items-center'>
-            <h2 className='text-center my-8 text-[2rem] font-bold text-blue-600'>Flight List</h2>
-            <div className="mb-4">
+            <h2 className='text-center my-8 text-[2rem] font-bold text-blue-600'>Flight List and Details</h2>
+            <div className="mb-4 flex gap-2">
                 <button
                     className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
                     onClick={onClickHandler}
                 >
                     {showDetail ? "Hide Details" : "Show Details"}
                 </button>
+                <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={goHomePage}>Home Page</button>
             </div>
             <div className="mb-4">
                 <label className="text-purple-800 font-bold mr-2">Departure Airport:</label>
@@ -70,7 +76,7 @@ const FlightList = () => {
                     type="text"
                     value={arrivalAirportFilter}
                     onChange={handleArrivalAirportFilterChange}
-                    className="border-2 py-2 px-4 rounded"
+                    className="border-2 py-2 px-4 rounded ml-7"
                 />
             </div>
             {filteredFlights.map((flight, index) => (
