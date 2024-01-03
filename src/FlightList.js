@@ -42,7 +42,7 @@ const FlightList = () => {
             .get("https://airlabs.co/api/v9/flights?api_key=a8690eb7-ee46-45eb-a4ba-5e55e309977e")
             .then((res) => {
                 console.log("API Response:", res.data);
-                setFlights(res.data.response.slice(0, 100));
+                setFlights(res.data.response.slice(0, 1500));
             })
             .catch((error) => {
                 console.error("Error fetching data from the API:", error);
