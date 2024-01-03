@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useState } from 'react'
-import { APIProvider, Map, AdvancedMarker, Pin, InfoWindow } from '@vis.gl/react-google-maps'
+import { APIProvider, Map, AdvancedMarker, Pin, InfoWindow , Polyline } from '@vis.gl/react-google-maps'
 import { faPlane } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -13,6 +13,9 @@ const FlightMap = () => {
     const [flightData, setFlightData] = useState([]);
     const history = useHistory()
     const [userLocation, setUserLocation] = useState(null)
+    const [open, setOpen] = useState(false);
+    const [selectedFlight, setSelectedFlight] = useState(null)
+    const [flightPaths, setFlightPaths] = useState([]);
 
     const getUserLocation = () => {
         navigator.geolocation.getCurrentPosition((position) => {
@@ -25,8 +28,9 @@ const FlightMap = () => {
         )
     }
 
-    const onClickHandler = () => {
-        console.log("CLİDKEDD")
+    const onClickHandler = (index) => {
+        setOpen(!open)
+        setSelectedFlight(flightData[index])
     }
     const buttonOnClickHandler = () => {
         history.push("/flightList")
@@ -37,7 +41,7 @@ const FlightMap = () => {
             .get("https://airlabs.co/api/v9/flights?api_key=a8690eb7-ee46-45eb-a4ba-5e55e309977e")
             .then((res) => {
                 console.log("API Response:", res.data);
-                setFlightData(res.data.response.slice(0, 100));
+                setFlightData(res.data.response.slice(0, 1500));
             })
             .catch((error) => {
                 console.error("Error fetching data from the API:", error);
@@ -61,21 +65,27 @@ const FlightMap = () => {
                 </div>
                 <Map zoom={10} center={AnkaraPosition || userLocation} mapId={mapId}>
                     {userLocation && (
-                        <AdvancedMarker position={userLocation} style={{ cursor: 'pointer' }}>
-                           
-                        </AdvancedMarker>
+                        <AdvancedMarker position={userLocation} style={{ cursor: 'pointer' }} />
                     )}
                     {flightData.map((each, index) => (
                         <AdvancedMarker
                             key={index}
                             position={{ lat: each.lat, lng: each.lng }}
                             style={{ cursor: 'pointer' }}
-                            onClick={onClickHandler}
+                            onClick={() => onClickHandler(index)}
                         >
                             <FontAwesomeIcon icon={faPlane} size='2xl' />
                         </AdvancedMarker>
-
                     ))}
+                    {open && selectedFlight && (
+                        <InfoWindow position={{ lat: selectedFlight.lat, lng: selectedFlight.lng }}>
+                            <div className='font-bold'>
+                                <h1>From : {selectedFlight.dep_iata}</h1>
+                                <h1>To : {selectedFlight.arr_iata}</h1>
+                                <h1>Speed : {selectedFlight.speed} KM/h</h1>
+                            </div>
+                        </InfoWindow>
+                    )}
                 </Map>
                 <div className='flex mt-2 justify-center gap-4'>
                     <svg xmlns="http://www.w3.org/2000/svg" height="20" width="20" viewBox="0 0 512 512"><path d="M48 64C21.5 64 0 85.5 0 112c0 15.1 7.1 29.3 19.2 38.4L236.8 313.6c11.4 8.5 27 8.5 38.4 0L492.8 150.4c12.1-9.1 19.2-23.3 19.2-38.4c0-26.5-21.5-48-48-48H48zM0 176V384c0 35.3 28.7 64 64 64H448c35.3 0 64-28.7 64-64V176L294.4 339.2c-22.8 17.1-54 17.1-76.8 0L0 176z" /></svg>
