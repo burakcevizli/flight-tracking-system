@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useState } from 'react'
-import { APIProvider, Map, AdvancedMarker, Pin, InfoWindow , Polyline } from '@vis.gl/react-google-maps'
+import { APIProvider, Map, AdvancedMarker, InfoWindow } from '@vis.gl/react-google-maps'
 import { faPlane } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -15,7 +15,6 @@ const FlightMap = () => {
     const [userLocation, setUserLocation] = useState(null)
     const [open, setOpen] = useState(false);
     const [selectedFlight, setSelectedFlight] = useState(null)
-    const [flightPaths, setFlightPaths] = useState([]);
 
     const getUserLocation = () => {
         navigator.geolocation.getCurrentPosition((position) => {
